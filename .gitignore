@@ -1,0 +1,14 @@
+node_modules/
+dist/
+coverage/
+.env
+.env.local
+.env.*.local
+*.db
+*.sqlite
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+__pycache__/
+.pytest_cache/
+.mypy_cache/

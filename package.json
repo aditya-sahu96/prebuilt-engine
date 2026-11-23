@@ -1,0 +1,23 @@
+{
+  "name": "prebuilt-engine",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Core engine modules for Project Ledger, built before the hackathon",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {
+    "better-sqlite3": "^13.2.0",
+    "typescript": "^7.0.2"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^9.6.0",
+    "@types/node": "^26.6.6",
+    "vitest": "^5.1.1"
+  }
+}

@@ -1,10 +1,10 @@
-// CONTRACTS-V2 function signatures. Each module must export exactly these.
+// CONTRACTS-V3 function signatures. Each module must export exactly these.
 // Kilo Code builds the product against these signatures and must not change them.
 
 import type {
   StackInfo, LanguageId, LanguageAdapter, SymbolGraph, Selection, ContextPack,
   Ledger, ReqStatus, Decision, Constraint, Requirement, ProviderConfig,
-  ModelResult, FilePatch, CheckCommand, VerifyResult, CheckResult,
+  ModelResult, FilePatch, CheckCommand, VerifyResult, CheckResult, UsageLimits,
 } from "./types";
 
 export * from "./types";
@@ -57,6 +57,16 @@ export declare function complete(
   task: string,
   providers: ProviderConfig[],         // tried in order
 ): Promise<ModelResult>;
+
+// modules/usage (v3): per-user, per-model daily limits stored in SQLite
+export interface UsageStore {
+  canUse(userId: string, modelId: string, limits: UsageLimits, now?: Date): boolean;
+  record(userId: string, modelId: string, tokens: number, now?: Date): void;
+  today(userId: string, modelId: string, now?: Date): { requests: number; tokens: number };
+  globalToday(modelId: string, now?: Date): number;
+  close(): void;
+}
+export declare function openUsageStore(dbPath: string): UsageStore;
 
 // modules/verifier: runs checks in a copy of the project, never in the original
 export declare function applyPatches(

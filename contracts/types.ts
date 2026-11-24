@@ -1,7 +1,7 @@
 // CONTRACTS-V2. Shared types for every module. Do not change these without
 // bumping the version and updating docs/BUILD_PLAN.md.
 
-export const CONTRACTS_VERSION = "contracts-v2";
+export const CONTRACTS_VERSION = "contracts-v3";
 
 // ---------- Stack and languages ----------
 
@@ -136,7 +136,16 @@ export interface ModelResult {
   provider: string | null;
   modelId: string | null;
   patches?: FilePatch[];
+  tokensUsed?: number;                   // v3: total tokens from the provider's usage object, if present
   error?: { kind: "quota" | "network" | "invalid_output" | "other"; message: string };
+}
+
+// ---------- Usage limits (v3) ----------
+
+export interface UsageLimits {
+  perUserDailyRequests: number;          // per user, per model, per UTC day
+  perUserDailyTokens: number;            // per user, per model, per UTC day
+  globalDailyRequests: number;           // all users, per model, per UTC day
 }
 
 // ---------- Verification ----------

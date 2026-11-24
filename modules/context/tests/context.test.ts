@@ -2,6 +2,7 @@ import { describe, it, expect } from "vitest";
 import { compilePack } from "../index";
 import { openLedger } from "../../ledger";
 import type { Selection, SymbolGraph, SymbolNode } from "../../../contracts/types";
+import { CONTRACTS_VERSION } from "../../../contracts/types";
 
 function node(id: string): SymbolNode {
   return { id, name: id, kind: "function", filePath: "a.ts", startLine: 1, endLine: 2, signature: "function " + id + "()" };
@@ -20,7 +21,7 @@ describe("compilePack", () => {
     const pack = compilePack(L.read(), selection, graph, 40);
     expect(pack.tokenEstimate).toBeLessThanOrEqual(40);
     expect(pack.text.startsWith("# Context Pack")).toBe(true);
-    expect(pack.text).toContain("Contracts: contracts-v2");
+    expect(pack.text).toContain(`Contracts: ${CONTRACTS_VERSION}`);
     expect(pack.text).toContain("Project: p");
     expect(pack.doNotRePropose).toContain("y: because");
     L.close();
